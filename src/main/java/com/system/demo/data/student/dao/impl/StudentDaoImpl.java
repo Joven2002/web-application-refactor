@@ -1,0 +1,161 @@
+package com.system.demo.data.student.dao.impl;
+
+import com.system.demo.appl.model.station.Station;
+import com.system.demo.data.student.dao.StudentDao;
+import com.system.demo.data.utils.QueryConstant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.system.demo.appl.model.student.Student;
+import com.system.demo.data.connection.ConnectionHelper;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+public class StudentDaoImpl implements StudentDao {
+
+        public static Logger LOGGER = LoggerFactory.getLogger(StudentDaoImpl.class);
+
+        @Override
+        public List<Student> getAllStudents() {
+            List<Student> students = new ArrayList<>();
+
+            try (Connection con = ConnectionHelper.getConnection()) {
+                PreparedStatement stmt = con.prepareStatement(QueryConstant.GET_ALL_STUDENTS_STATEMENT);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    students.add(setStudent(rs));
+                }
+                return students;
+
+            } catch (Exception e) {
+                LOGGER.error("An SQL Exception occurred." + e.getMessage());
+            }
+            LOGGER.debug("Student database is empty.");
+            return students;
+        }
+
+        @Override
+        public Student getStudentById(Long id) {
+
+            try (Connection con = ConnectionHelper.getConnection()) {
+                PreparedStatement stmt = con.prepareStatement(QueryConstant.GET_STUDENT_BY_STUDENT_ID_STATEMENT);
+                stmt.setLong(1, id);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    return setStudent(rs);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error retrieving Student with ID " + id + ": " + e.getMessage());
+                e.printStackTrace();
+            }
+            LOGGER.debug("Student not found.");
+            return null;
+        }
+
+        @Override
+        public boolean addStudent(Student student) {
+
+            try (Connection con = ConnectionHelper.getConnection()) {
+                PreparedStatement statement = con.prepareStatement(QueryConstant.ADD_STUDENT_STATEMENT);
+                statement.setLong(1, student.getId());
+                statement.setString(2, student.getLastName());
+                statement.setString(3, student.getFirstName());
+                statement.setString(4, student.getMiddleName());
+                statement.setDate(5, student.getBirthdate());
+                statement.setString(6, student.getBirthplace());
+                statement.setString(7, student.getSex());
+                statement.setString(8, student.getCivilStatus());
+                statement.setString(9, student.getCitizenship());
+                statement.setString(10, student.getReligion());
+                statement.setString(11, student.getEmail());
+                statement.setString(12, student.getAddress());
+                statement.setString(13, student.getContactNumber());
+                statement.setString(14, student.getStudentNumber());
+                statement.setObject(15, student.getStation());
+                int result = statement.executeUpdate();
+                return result == 1 ? true : false;
+
+            } catch (Exception e) {
+                LOGGER.error("Error adding student failed " + e.getMessage());
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        public List<Student> addStudents(ResultSet rs) {
+            return addStudents(rs);
+        }
+
+        private Student setStudent(ResultSet rs) {
+            try {
+                Student student = new Student();
+                student.setId(rs.getLong("id"));
+                student.setLastName(rs.getString("last_name"));
+                student.setFirstName(rs.getString("first_name"));
+                student.setMiddleName(rs.getString("middle_name"));
+                student.setBirthdate(rs.getDate("birthdate"));
+                student.setBirthplace(rs.getString("birthplace"));
+                student.setSex(rs.getString("sex"));
+                student.setCivilStatus(rs.getString("civil_status"));
+                student.setCitizenship(rs.getString("citizenship"));
+                student.setReligion(rs.getString("religion"));
+                student.setEmail(rs.getString("email"));
+                student.setAddress(rs.getString("address"));
+                student.setContactNumber(rs.getString("contact_number"));
+                student.setStudentNumber(rs.getString("student_number"));
+                student.setStation((Station) rs.getObject("station"));
+                return student;
+            } catch (Exception e) {
+                LOGGER.error("An SQL Exception occurred." + e.getMessage());
+            }
+            LOGGER.debug("set Student failed.");
+            return setStudent(rs);
+        }
+
+    @Override
+    public boolean updateStudent(Student student) {
+        try (Connection con = ConnectionHelper.getConnection()) {
+            PreparedStatement statement = con.prepareStatement(QueryConstant.UPDATE_STATEMENT);
+            statement.setString(1, student.getLastName());
+            statement.setString(2, student.getFirstName());
+            statement.setString(3, student.getMiddleName());
+            statement.setString(4, student.getSex());
+            statement.setDate(5, student.getBirthdate());
+            statement.setString(6, student.getReligion());
+            statement.setString(7, student.getEmail());
+            statement.setString(8, student.getAddress());
+            statement.setString(9, student.getContactNumber());
+            statement.setLong(10, student.getId());
+            int result = statement.executeUpdate();
+
+            return result == 1;
+        } catch (Exception e) {
+            LOGGER.error("Error updating user with ID " + student.getId() + ": " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+        public Student findStudentByEmail(String email) {
+            Student student = null;
+            try (Connection con = ConnectionHelper.getConnection()) {
+                PreparedStatement statement = con.prepareStatement(QueryConstant.FIND_STUDENT_BY_EMAIL_STATEMENT);
+                statement.setString(1, email);
+                ResultSet rs = statement.executeQuery();
+
+                if (rs.next()) {
+                    student = setStudent(rs);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error finding student by email {}: {}", email, e.getMessage());
+                throw new RuntimeException(e);
+            }
+            return student;
+        }
+}
