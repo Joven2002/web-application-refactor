@@ -16,7 +16,7 @@ public class ConnectionHelper {
     /**
      * The username used to connect to the database.
      */
-    public static String username = "com/system";
+    public static String username = "system";
     /**
      * The password used to connect to the database.
      */

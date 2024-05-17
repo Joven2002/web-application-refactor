@@ -1,12 +1,10 @@
 package com.system.demo.appl.model.student;
 
-import com.system.demo.appl.model.station.Station;
-
 import java.sql.Date;
 
 public class Student {
 
-    private Long Id;
+    private int Id;
     private String lastName;
     private String firstName;
     private String middleName;
@@ -15,21 +13,20 @@ public class Student {
     private String birthplace;
     private String sex;
 
-    private String civilStatus;
+    private String civil_status;
     private String citizenship;
     private String religion;
     private String email;
     private String address;
     private String contactNumber;
     private String studentNumber;
-    private Station station;
+    private int sectionSectionId;
 
-
-    public Long getId() {
+    public int getId() {
         return Id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         Id = id;
     }
 
@@ -81,12 +78,12 @@ public class Student {
         this.sex = sex;
     }
 
-    public String getCivilStatus() {
-        return civilStatus;
+    public String getCivil_status() {
+        return civil_status;
     }
 
-    public void setCivilStatus(String civilStatus) {
-        this.civilStatus = civilStatus;
+    public void setCivil_status(String civil_status) {
+        this.civil_status = civil_status;
     }
 
     public String getCitizenship() {
@@ -137,14 +134,13 @@ public class Student {
         this.studentNumber = studentNumber;
     }
 
-    public Station getStation() {
-        return station;
+    public void setSectionId(int sectionId) {
+        this.sectionSectionId = sectionId;
     }
 
-    public void setStation(Station station) {
-        this.station = station;
+    public int getSectionId() {
+        return sectionSectionId;
     }
-
 
     public Student() {
     }

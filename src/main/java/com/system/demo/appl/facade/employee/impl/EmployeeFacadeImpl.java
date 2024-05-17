@@ -1,11 +1,12 @@
 package com.system.demo.appl.facade.employee.impl;
 
+import com.system.demo.appl.facade.employee.EmployeeFacade;
 import com.system.demo.appl.model.employee.Employee;
 import com.system.demo.data.employee.dao.EmployeeDao;
 
 import java.util.List;
 
-public class EmployeeFacadeImpl {
+public class EmployeeFacadeImpl implements EmployeeFacade {
     private EmployeeDao employeeDao;
 
     /**
@@ -27,10 +28,15 @@ public class EmployeeFacadeImpl {
     }
 
     @Override
+    public Employee getById(int id) {
+        return employeeDao.getById(id);
+    }
+
+    @Override
     public boolean addEmployee(Employee employee) throws RuntimeException {
         boolean result = false;
         try {
-            Employee targetEmployee = getEmployeeById(employee.getId());
+            Employee targetEmployee = getEmployeeById(employee.getEmployeeNo());
             if (targetEmployee != null) {
                 throw new Exception("Employee to add already exists. ");
             }
@@ -44,7 +50,7 @@ public class EmployeeFacadeImpl {
     @Override
     public boolean updateEmployee(Employee employee) throws RuntimeException {
         try {
-            Employee existingEmployee = getEmployeeById(employee.getId());
+            Employee existingEmployee = getEmployeeById(employee.getEmployeeNo());
             if (existingEmployee == null) {
                 throw new RuntimeException("Employee to update does not exist.");
             }

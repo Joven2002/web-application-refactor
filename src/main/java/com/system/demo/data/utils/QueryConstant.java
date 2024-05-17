@@ -14,14 +14,14 @@ package com.system.demo.data.utils;
         /**
          * SQL query that adds a new student to the database.
          */
-        public static final String ADD_STUDENT_STATEMENT = "INSERT INTO STUDENT VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        public static final String ADD_STUDENT_STATEMENT = "INSERT INTO STUDENT (address, birthdate, birthplace, citizenship, civil_Status, contact_Number, email, first_Name, last_Name, middle_Name, religion, sex, student_Number, section_section_Id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         /**
          * SQL query to updates an existing student in the database.
          */
-        public static final String UPDATE_STATEMENT = "UPDATE student" +
-                " SET last_name = ?, first_name = ?,  middle_name = ?, sex = ?, birthday = ?, religion = ?, email = ?, address = ?, contact_number = ?"
-                + "  WHERE student_id = ?";
+        public static final String UPDATE_STATEMENT = "UPDATE STUDENT" +
+                " SET id = ?, address = ?, birthdate = ?, birthplace = ?, citizenship = ?, civil_Status = ?, contact_Number = ?, email = ?, first_Name = ?, last_Name = ?, middle_Name = ?, religion = ?, sex = ?, student_number = ?, section_section_id = ?" +
+                " WHERE id = ?";
         /**
          * SQL query to find an existing email of the student in the database.
          */
@@ -39,15 +39,15 @@ package com.system.demo.data.utils;
 
         public static final String GET_USER_BY_ID_STATEMENT = "SELECT * FROM login WHERE id = ?";
 
-        public static final String UPDATE_USER_STATEMENT = "UPDATE login SET username = ?, password = ?, entity_id = ?, date_modified = ? WHERE id = ?";
+        public static final String UPDATE_USER_STATEMENT = "UPDATE login SET username = ?, password = ?, lastLoginDate = ?, joinDate = ?, role = ? WHERE id = ?";
 
         public static final String GET_USERNAME_STATEMENT = "SELECT * FROM login WHERE username=?";
 
-        public static final String UPDATE_PASSWORD_STATEMENT = "UPDATE login SET password=?, date_modified=? WHERE username=?";
+        public static final String UPDATE_PASSWORD_STATEMENT = "UPDATE login SET password=?, lastLoginDate=? WHERE username=?";
 
         public static final String GET_PASSWORD_BY_USERNAME_STATEMENT = "SELECT password FROM login WHERE username=?";
 
-        public static final String FORGOT_PASSWORD_STATEMENT = "UPDATE login SET password=?, date_modified=? WHERE username=?";
+        public static final String FORGOT_PASSWORD_STATEMENT = "UPDATE login SET password=?, lastLoginDate=? WHERE username=?";
 
 
 
@@ -67,6 +67,10 @@ package com.system.demo.data.utils;
         /**
          * SQL query to updates an existing employee in the database.
          */
-        public static final String UPDATE_STATEMENT = "UPDATE EMPLOYEE SET LAST_NAME = ?, FIRST_NAME = ?, MIDDLE_NAME = ?, POSITION_IN_RC = ?, DATE_EMPLOYED = ?, BIRTHDATE = ?, BIRTHPLACE = ?, SEX = ?, CIVIL_STATUS = ?, CITIZENSHIP = ?, RELIGION = ?, HEIGHT = ?, WEIGHT = ?, EMAIL = ?, SSS_NO = ?, TIN_NO = ?, PAGIBIG_NO = ? WHERE EMPLOYEE_NO = ?";
+        public static final String UPDATE_EMPLOYEE_STATEMENT = "UPDATE EMPLOYEE SET LAST_NAME = ?, FIRST_NAME = ?, MIDDLE_NAME = ?, POSITION_IN_RC = ?, DATE_EMPLOYED = ?, BIRTHDATE = ?, BIRTHPLACE = ?, SEX = ?, CIVIL_STATUS = ?, CITIZENSHIP = ?, RELIGION = ?, HEIGHT = ?, WEIGHT = ?, EMAIL = ?, SSS_NO = ?, TIN_NO = ?, PAGIBIG_NO = ? WHERE EMPLOYEE_NO = ?";
 
+        /**
+         * SQL query to Get all CsSlip in the database.
+         */
+       public static final  String GET_ALL_CSSLIP_STATEMENT ="SELECT * FROM LOGIN";
     }

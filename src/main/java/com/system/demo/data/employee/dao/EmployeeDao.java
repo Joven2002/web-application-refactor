@@ -6,6 +6,11 @@ import java.util.List;
 
 public interface EmployeeDao {
 
+    /**
+     * Retrieves all employees.
+     *
+     * @return a List of all employees
+     */
     List<Employee> getAllEmployees();
 
     /**
@@ -14,7 +19,9 @@ public interface EmployeeDao {
      * @param id the ID of the employee to retrieve
      * @return the Employee object to the given ID, or null if not found
      */
-    Employee getEmployeeById(Long id);
+    Employee getEmployeeById(String id);
+
+    Employee getById(int id);
 
     /**
      * Adds a new employee.

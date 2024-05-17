@@ -10,17 +10,16 @@ public interface StudentDao {
     List<Student> getAllStudents();
 
 
-    Student getStudentById(Long id);
+    Student getStudentById(String studentNumber);
 
 
     boolean addStudent(Student student);
 
     List<Student> addStudents(ResultSet rs);
 
+    List<Student> getStudentsByIdList(List<String> ids);
 
     boolean updateStudent(Student student) ;
 
-
-    Student findStudentByEmail(String email);
 
 }

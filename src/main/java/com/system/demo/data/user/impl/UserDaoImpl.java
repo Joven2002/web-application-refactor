@@ -4,10 +4,7 @@ import com.system.demo.appl.model.user.User;
 import com.system.demo.data.connection.ConnectionHelper;
 import com.system.demo.data.user.UserDao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -34,9 +31,9 @@ public class UserDaoImpl implements UserDao {
                     user.setId(resultSet.getInt("id"));
                     user.setUsername(resultSet.getString("username"));
                     user.setPassword(resultSet.getString("password"));
-                    user.setEntity_id(resultSet.getString("entity_id"));
-                    user.setDate_created(resultSet.getTimestamp("date_created"));
-                    user.setDate_modified(resultSet.getTimestamp("date_modified"));
+                    user.setLastLoginDate(resultSet.getDate("lastLoginDate"));
+                    user.setJoinDate(resultSet.getDate("joinDate"));
+                    user.setRole(resultSet.getString("role"));
                 }
             }
         } catch (Exception e) {
@@ -57,9 +54,9 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setLong(1, maxId + 1);
             preparedStatement.setString(2, user.getUsername());
             preparedStatement.setString(3, user.getPassword());
-            preparedStatement.setString(4, user.getEntity_id());
-            preparedStatement.setTimestamp(5, user.getDate_created());
-            preparedStatement.setTimestamp(6, user.getDate_modified());
+            preparedStatement.setDate(4, (Date) user.getLastLoginDate());
+            preparedStatement.setDate(5, (Date) user.getJoinDate());
+            preparedStatement.setString(6, user.getRole());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             LOGGER.error("An SQL Exception occurred." + e.getMessage());
@@ -97,12 +94,15 @@ public class UserDaoImpl implements UserDao {
 
             while (resultSet.next()) {
                 User user = new User();
-                user.setId(resultSet.getInt("ID"));
-                user.setUsername(resultSet.getString("USERNAME"));
-                user.setPassword(resultSet.getString("PASSWORD"));
-                user.setEntity_id(resultSet.getString("ENTITY_ID"));
-                user.setDate_created(resultSet.getTimestamp("DATE_CREATED"));
-                user.setDate_modified(resultSet.getTimestamp("DATE_MODIFIED"));
+                user.setId(resultSet.getInt("id"));
+                user.setAuthorities(resultSet.getString("authorities"));
+                user.setUsername(resultSet.getString("username"));
+                user.setPassword(resultSet.getString("password"));
+                user.setLastLoginDate(resultSet.getDate("last_Login_Date"));
+                user.setJoinDate(resultSet.getDate("join_Date"));
+                user.setRole(resultSet.getString("role"));
+                user.setIsActive(resultSet.getInt("is_Active"));
+                user.setIsLocked(resultSet.getInt("is_Locked"));
                 userList.add(user);
             }
         } catch (Exception e) {
@@ -112,34 +112,39 @@ public class UserDaoImpl implements UserDao {
         return userList;
     }
 
-    @Override
-    public User getUserById(int id) {
-
-        try (Connection con = ConnectionHelper.getConnection())
-        {
-            PreparedStatement stmt = con.prepareStatement(GET_USER_BY_ID_STATEMENT);
-            stmt.setInt(1, id);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    LOGGER.debug("User retrieved successfully.");
-                    int idNum = rs.getInt("id");
-                    String username = rs.getString("username");
-                    String password = rs.getString("password");
-                    String entity_id = rs.getString("entity_id");
-                    Timestamp date_modified = rs.getTimestamp("date_modified");
-                    return new User(idNum, username, password, entity_id, null, date_modified);
-                } else {
-                    LOGGER.error("No user found with ID: " + id);
-                }
-            }
-        } catch (Exception ex) {
-            LOGGER.error("Error retrieving user with ID " + id + ": " + ex.getMessage());
-            ex.printStackTrace();
-        }
-        LOGGER.debug("User not found.");
-        return null;
-    }
+//    @Override
+//    public User getUserById(long id) {
+//
+//        try (Connection con = ConnectionHelper.getConnection())
+//        {
+//            PreparedStatement stmt = con.prepareStatement(GET_USER_BY_ID_STATEMENT);
+//            stmt.setLong(1, id);
+//
+//            try (ResultSet rs = stmt.executeQuery()) {
+//                if (rs.next()) {
+//                    LOGGER.debug("User retrieved successfully.");
+//                    long idNum = rs.getLong("id");
+//                    String userId = rs.getString("userId");
+//                    String authorities = rs.getString("authorities");
+//                    String username = rs.getString("username");
+//                    String password = rs.getString("password");
+//                    Date lastLoginDate = rs.getDate("lastLoginDate");
+//                    Date joinDate = rs.getDate("joinDate");
+//                    String role =rs.getString("role");
+//                    int isActive = rs.getInt("is_active");
+//                    int isLocked = rs.getInt("is_locked");
+//                    return new User(idNum,authorities,userId, username, password, lastLoginDate, joinDate,role,isActive,isLocked);
+//                } else {
+//                    LOGGER.error("No user found with ID: " + id);
+//                }
+//            }
+//        } catch (Exception ex) {
+//            LOGGER.error("Error retrieving user with ID " + id + ": " + ex.getMessage());
+//            ex.printStackTrace();
+//        }
+//        LOGGER.debug("User not found.");
+//        return null;
+//    }
 
     @Override
     public boolean updateUser() {
@@ -151,9 +156,9 @@ public class UserDaoImpl implements UserDao {
 
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPassword());
-            stmt.setString(3, user.getEntity_id());
-            stmt.setTimestamp(4, user.getDate_modified());
-            stmt.setInt(5, user.getId());
+            stmt.setDate(3, (Date) user.getLastLoginDate());
+            stmt.setDate(4, (Date) user.getJoinDate());
+            stmt.setLong(5, user.getId());
             int affectedRows = stmt.executeUpdate();
             return affectedRows > 0;
 

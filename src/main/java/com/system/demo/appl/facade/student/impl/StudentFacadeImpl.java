@@ -16,16 +16,17 @@ public class StudentFacadeImpl implements StudentFacade {
     @Override
     public List<Student> getAllStudents() { return studentDao.getAllStudents(); }
 
+
     @Override
-    public Student getStudentById(Long id) {
-        return studentDao.getStudentById(id);
+    public Student getStudentById(String studentNumber) {
+        return studentDao.getStudentById(studentNumber);
     }
 
     @Override
     public boolean addStudent(Student student) {
         boolean result = false;
         try {
-            Student targetStudent = getStudentById(student.getId());
+            Student targetStudent = getStudentById(student.getStudentNumber());
             if(targetStudent != null) {
                 throw new Exception("Student to add already exists. ");
             }
@@ -40,7 +41,7 @@ public class StudentFacadeImpl implements StudentFacade {
     public boolean updateStudent(Student student) {
         boolean result = false;
         try {
-            Student targetStudent = getStudentById(student.getId());
+            Student targetStudent = getStudentById(student.getStudentNumber());
             if (targetStudent == null) {
                 throw new Exception("Student to update not found. ");
             }
@@ -51,9 +52,5 @@ public class StudentFacadeImpl implements StudentFacade {
         return result;
     }
 
-    @Override
-    public Student findStudentByEmail(String email) {
-        return  studentDao.findStudentByEmail(email);
-    }
 
 }

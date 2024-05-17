@@ -38,26 +38,26 @@ public class UserFacadeImpl implements UserFacade {
         return userDao.getAllUsers();
     }
 
-    @Override
-    public User getUserById(int id) {
-        return userDao.getUserById(id);
-    }
+//    @Override
+//    public User getUserById(long id) {
+//        return userDao.getUserById(id);
+//    }
 
-    @Override
-    public boolean updateUser(User user) {
-        boolean result = false;
-        try {
-            User targetUser = getUserById(user.getId());
-            if(targetUser == null) {
-                LOGGER.debug("User to update not found.");
-            }
-            result = userDao.updateUser();
-        } catch (Exception e) {
-            LOGGER.error("An SQL Exception occurred." + e.getMessage());
-        }
-        LOGGER.debug("Updating user failed.");
-        return result;
-    }
+//    @Override
+//    public boolean updateUser(User user) {
+//        boolean result = false;
+//        try {
+//            User targetUser = getUserById(user.getId());
+//            if(targetUser == null) {
+//                LOGGER.debug("User to update not found.");
+//            }
+//            result = userDao.updateUser();
+//        } catch (Exception e) {
+//            LOGGER.error("An SQL Exception occurred." + e.getMessage());
+//        }
+//        LOGGER.debug("Updating user failed.");
+//        return result;
+//    }
 
     @Override
     public User getUsername(String username) {

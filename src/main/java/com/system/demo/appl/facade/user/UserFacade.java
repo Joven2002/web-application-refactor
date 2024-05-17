@@ -36,15 +36,16 @@ public interface UserFacade {
          * @param id is the ID of the user.
          * @return the user.
          */
-        User getUserById(int id);
 
-        /**
+// User getUserById(long id);
+
+ /**
          * This updates a user information in the database.
          *
          * @param user is the user to update.
          * @return true if the updating of user information is successful.
          */
-        boolean updateUser(User user);
+      //  boolean updateUser(User user);
 
         /**
          * This gets a user from the database using their username.

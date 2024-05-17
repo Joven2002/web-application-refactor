@@ -8,14 +8,14 @@ public interface StudentFacade {
 
         List<Student> getAllStudents();
 
-        Student getStudentById(Long studentId);
+        Student getStudentById(String studentId);
 
 
-        boolean addStudent(Student student);
+    boolean addStudent(Student student);
 
         boolean updateStudent(Student student);
 
 
-        Student findStudentByEmail(String email);
+
     }
 

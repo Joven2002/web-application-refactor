@@ -35,7 +35,7 @@ public interface UserDao {
      * @param id the ID of the user to retrieve
      * @return the User with the given ID, or null if not found
      */
-    User getUserById(int id);
+   // User getUserById(long id);
 
     /**
      * Updates a user.

@@ -5,6 +5,12 @@ import com.system.demo.appl.model.employee.Employee;
 import java.util.List;
 
 public interface EmployeeFacade {
+
+    /**
+     * This gets all the Employees from the database.
+     *
+     * @return list of all employees.
+     */
     List<Employee> getAllEmployees();
 
 
@@ -13,8 +19,9 @@ public interface EmployeeFacade {
      * @param id is the ID of the Employees.
      * @return the Employee.
      */
-    Employee getEmployeeById(Long id);
+    Employee getEmployeeById(String id);
 
+    Employee getById(int id);
 
     /**
      * This adds an Employee to the database.
